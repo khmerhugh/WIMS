@@ -1,0 +1,123 @@
+<!DOCTYPE html>   
+<html lang="en"> 
+<head>
+    <link rel="stylesheet" href="wims.css"> 
+    <script src="wims.js"></script>
+    <title>Web Interface for Mystery Solutions</title>
+</head>
+<body>
+    <div id="page_login"> 
+        <div id="page_login_abrv">W.I.M.S.</div>
+        <div id="page_login_longname">Web Interface for Mystery Solutions</div>
+
+        <div class="divTable" id="div_username">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell left_cell">
+                        <label for="username">Username:</label>
+                    </div>
+                    <div class="divTableCell">
+                        <input type="text" id="username" name="username">
+                    </div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell left_cell">
+                        <label for="password">Password:</label>
+                    </div>
+                    <div class="divTableCell">
+                        <input type="password" id="password" name="password">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divTable" id="div_buttons">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell left_cell">
+                        <input class="page_login_buttons" id="newuser" value="New User" type="button" onclick="newUser()">
+                    </div>
+                    <div class="divTableCell">
+                        <input class="page_login_buttons" id="login" value="Login" type="button" onclick="validateUser()">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id="page_newuser">
+        <div id="page_newuser_abrv">W.I.M.S.</div>
+        <div id="page_newuser_longname">Web Interface for Mystery Solutions</div>
+        <div class="divTable" id="div_newuser">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell left_cell"><label for="newusername">New Username:</label></div>
+                    <div class="divTableCell"><input type="text" id="newusername" name="newusername"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell left_cell"><label for="newpassword">New Password:</label></div>
+                    <div class="divTableCell"><input type="password" id="newpassword" name="newpassword"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell"><input type="password" id="repeatnewpassword" name="repeatnewpassword"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell left_cell">
+                        <input class="page_login_buttons" id="clearnewuser" value="Clear" type="button" onclick="clearNewUser()">
+                    </div>
+                    <div class="divTableCell"><input class="page_login_buttons" id="addnewuser" value="Submit" type="button" onclick="addNewUser()"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="page_main">
+        <div id="page_main_title">Web Interface for Mystery Solutions</div>
+        <div class="divTable tablefixed">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div id="main_upperleft" class="divTableCell main_upper">Files: <span id="addCase" onClick="addCase()">+</span>-</div>
+                    <div id="main_upperright" class="divTableCellTab main_upper">
+                        <!-- Replace with buttons,
+                             See https://www.w3schools.com/howto/howto_js_tabs.asp
+                        <div class="divTable">
+                            <div class="divTableBody">
+                                <div class="divTableRow">
+                                    <div class="divTableCellTab">Import</div>
+                                    <div class="divTableCellTab">Evaluate</div>
+                                    <div class="divTableCellTab">File 1</div>
+                                    <div class="divTableCellTab">New File</div>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+                <div class="divTableRow" id="lowerrow">
+                    <div id="main_lowerleft" class="divTableCell"></div>
+                    <div id="main_lowerright" class="divTableCell">
+                        <textarea rows="20" placeholder="Paste case data here." cols="20" name="importcases_textarea" id="importcases_textarea"></textarea><br>
+                        <br>
+                        <input type="button" value="Import" onclick="importCases();">
+                    </div>
+                    <div id="main_lowerright_newcase" class="divTableCell">
+                            <div class="form-example">
+                              <label for="newcase_filename">Filename: </label>
+                              <input type="text" name="newcase_filename" id="newcase_filename" required />
+                            </div>
+                            <div class="form-example">
+                              <label for="newcase_date">Date: </label>
+                              <input type="date" name="newcase_date" id="newcase_date" required />
+                            </div>
+                            <textarea rows="4" cols="50" name="newcase_textarea" id="newcase_textarea"></textarea>
+                            <div class="form-example">
+                              <input type="button" value="Add File" onclick="addNewCase();">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
