@@ -1,5 +1,4 @@
 *
 .vscode
 *.html
-!ollama.html
-!radio.html
+!index.html
