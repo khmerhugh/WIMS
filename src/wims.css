@@ -106,11 +106,6 @@
     visibility: hidden;
 }
 
-#main_lowerright_newcase {
-  display: none;
-  visibility: hidden;
-}
-
 #page_login_abrv, #page_newuser_abrv {
     font: 80px Arial, sans-serif;
     text-align: center;
@@ -144,7 +139,9 @@ body {
   border-right: 1px solid black;
   vertical-align: top;
 }
-
+#main_upperright {
+  border: 0;
+}
 /**
 #main_lowerright,  #main_upperright {
 
@@ -165,3 +162,166 @@ body {
   font-size: 16px;
   resize: none;
 }
+
+.tab_horizontal {
+  background-color: green;
+}
+
+/**************************************************************/
+
+/*** {box-sizing: border-box} **/
+
+/* Style the tab */
+.tab {
+  /**float: left;**/
+  border: 0;
+  background-color: #f1f1f1;
+  width: 100%;
+  /**height: 300px;**/
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 22px 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  float: left;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  /**height: 300px; **/
+}
+
+/********************/
+.siteHeader {
+  /**
+   * Lay out the children of this container with
+   * flexbox, which is horizontal by default.
+   */
+  display: flex;
+
+  /**
+   * Make the container put as much space as possible
+   * between its children, with the children at either
+   * end laying flush against the container's edges.
+   */
+  justify-content: space-between;
+
+  padding: 0px;
+  background-color: #56727C;
+}
+
+  .siteHeader__section {
+    /**
+     * Lay out the children of this container with
+     * flexbox.
+     */
+    display: flex;
+
+    /**
+     * Align the children in the center, along
+     * the main axis. By default the children will
+     * align along their top edges.
+     */
+    align-items: center;
+  }
+
+    .siteHeader__item {
+      padding: 5px 15px;
+      font-size: 12px;
+    }
+
+    .siteHeader__item + .siteHeader__item {
+      margin-left: 5px;
+    }
+
+    .siteHeader__item.is-site-header-item-selected {
+      color: #FFFFFF;
+      background-color: #415F69;
+      border-radius: 4px;
+    }
+
+    .siteHeaderLogo {
+      font-size: 20px;
+      line-height: 0;
+      color: white;
+    }
+
+    .siteHeaderButton {
+      cursor: pointer;
+      color: #D9E9EF;
+    }
+
+    /****************************************************************/
+    .sideBar {
+      /**
+       * This container orders items according to flexbox
+       * rules. By default, this would arrange its children
+       * horizontally. However, the next property...
+       */
+      display: flex;
+    
+      /**
+       * ...sets the main axis to be vertical instead of
+       * horizontal, so now the children are laid out
+       * vertically, from top to bottom.
+       */
+      flex-direction: column;
+    
+      /**
+       * It will also put as much space as possible
+       * between its children, with the children at either end
+       * laying flush against the container's edges.
+       */
+      justify-content: space-between;
+    
+      height: calc(100vh - 100px);
+      width: 150px;
+      border-right: 0;
+      background-color: #FCFDFD;
+      padding: 0;
+      overflow-y:auto;
+    }
+    
+      .sideBar__item {
+        cursor: pointer;
+        padding: 5px 10px;
+        color: #16A2D7;
+        font-size: 12px;
+      }
+    
+      .sideBar__item.is-side-bar-item-selected {
+        background-color: #EEF3F5;
+        border-radius: 4px;
+      }
+
+      .mlr,
+      #main_lowerright_evaluate, 
+      #main_lowerright_file, 
+      #main_lowerright_newcase, 
+      #main_lowerright_import {
+        display: none;
+        visibility: hidden;
+      }

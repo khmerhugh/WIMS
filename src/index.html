@@ -78,8 +78,22 @@
         <div class="divTable tablefixed">  
             <div class="divTableBody">
                 <div class="divTableRow">
-                    <div id="main_upperleft" class="divTableCell main_upper">Files: <span id="addCase" onClick="addCase()">+</span>-</div>
+                    <div id="main_upperleft" class="divTableCell main_upper">Files: <span id="addCase" onClick="makeSelected('new')">+</span><span id="addCase" onClick="removeCase()">-</span></div>
                     <div id="main_upperright" class="divTableCellTab main_upper">
+                        <div class="siteHeader">
+                            <!-- This section gets pushed to the left side-->
+                            <div class="siteHeader__section">
+                    
+                              <div class="siteHeader__item siteHeaderButton" id="import" onclick="makeSelected(event.target.id)">Import</div>
+                              <div class="siteHeader__item siteHeaderButton" id="new" onclick="makeSelected(event.target.id)">New File</div>
+                              <div class="siteHeader__item siteHeaderButton" id="file" onclick="makeSelected(event.target.id)">File</div>
+                              <div class="siteHeader__item siteHeaderButton" id="evaluate" onclick="makeSelected(event.target.id)">Evaluate</div>
+                            </div>
+                            <!-- This section gets pushed to the right side-->
+                            <div class="siteHeader__section">
+                              <div class="siteHeader__item siteHeaderButton" id="logout" onclick="makeSelected(event.target.id)">Logout</div>
+                            </div>
+                          </div>
                         <!-- Replace with buttons,
                              See https://www.w3schools.com/howto/howto_js_tabs.asp
                         <div class="divTable">
@@ -95,13 +109,17 @@
                     </div>
                 </div>
                 <div class="divTableRow" id="lowerrow">
-                    <div id="main_lowerleft" class="divTableCell"></div>
-                    <div id="main_lowerright" class="divTableCell">
+                    <div id="main_lowerleft" class="divTableCell">
+                        <div class="sideBar">
+                            <div class="sideBar__section" id="topSideBarSection"></div>
+                        </div>
+                    </div>
+                    <div id="main_lowerright_import" class="divTableCell mlr">
                         <textarea rows="20" placeholder="Paste case data here." cols="20" name="importcases_textarea" id="importcases_textarea"></textarea><br>
                         <br>
                         <input type="button" value="Import" onclick="importCases();">
                     </div>
-                    <div id="main_lowerright_newcase" class="divTableCell">
+                    <div id="main_lowerright_newcase" class="divTableCell mlr">
                             <div class="form-example">
                               <label for="newcase_filename">Filename: </label>
                               <input type="text" name="newcase_filename" id="newcase_filename" required />
@@ -114,6 +132,12 @@
                             <div class="form-example">
                               <input type="button" value="Add File" onclick="addNewCase();">
                             </div>
+                    </div>
+                    <div id="main_lowerright_file" class="divTableCell mlr">
+                        
+                    </div>
+                    <div id="main_lowerright_evaluate" class="divTableCell mlr">
+                        <h1>Evaluation process in devlopment.</h1>
                     </div>
                 </div>
             </div>
