@@ -325,3 +325,41 @@ body {
         display: none;
         visibility: hidden;
       }
+
+      /**********************************************************/
+      /** Range Slider **/
+      datalist {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        writing-mode: vertical-lr;
+        width: 200px;
+      }
+      
+      option {
+        padding: 0;
+      }
+      
+      input[type="range"] {
+        width: 200px;
+        margin: 0;
+      }
+/***********************************************************/
+/** Annotation Highlight **/
+ann-person {
+  background-color: orangered;
+  color: white;
+}
+ann-place {
+  background-color: blueviolet;
+  color: white;
+}
+ann-telephone {
+  background-color: yellowgreen;
+  color: white;
+}
+/***********************************************************/
+
+.filteredFile {
+  color: red;
+}

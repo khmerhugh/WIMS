@@ -1,7 +1,8 @@
 <!DOCTYPE html>   
 <html lang="en"> 
 <head>
-    <link rel="stylesheet" href="wims.css"> 
+    <link rel="stylesheet" href="wims.css">
+    <script src="files.js"></script>
     <script src="wims.js"></script>
     <title>Web Interface for Mystery Solutions</title>
 </head>
@@ -17,7 +18,7 @@
                         <label for="username">Username:</label>
                     </div>
                     <div class="divTableCell">
-                        <input type="text" id="username" name="username">
+                        <input type="text" id="username" name="username" autocomplete="off">
                     </div>
                 </div>
                 <div class="divTableRow">
@@ -54,7 +55,7 @@
             <div class="divTableBody">
                 <div class="divTableRow">
                     <div class="divTableCell left_cell"><label for="newusername">New Username:</label></div>
-                    <div class="divTableCell"><input type="text" id="newusername" name="newusername"></div>
+                    <div class="divTableCell"><input type="text" id="newusername" name="newusername" ></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCell left_cell"><label for="newpassword">New Password:</label></div>
@@ -87,6 +88,7 @@
                               <div class="siteHeader__item siteHeaderButton" id="import" onclick="makeSelected(event.target.id)">Import</div>
                               <div class="siteHeader__item siteHeaderButton" id="new" onclick="makeSelected(event.target.id)">New File</div>
                               <div class="siteHeader__item siteHeaderButton" id="file" onclick="makeSelected(event.target.id)">File</div>
+                              <div class="siteHeader__item siteHeaderButton" id="filter" onclick="makeSelected(event.target.id)">Filter</div>
                               <div class="siteHeader__item siteHeaderButton" id="evaluate" onclick="makeSelected(event.target.id)">Evaluate</div>
                             </div>
                             <!-- This section gets pushed to the right side-->
@@ -94,18 +96,6 @@
                               <div class="siteHeader__item siteHeaderButton" id="logout" onclick="makeSelected(event.target.id)">Logout</div>
                             </div>
                           </div>
-                        <!-- Replace with buttons,
-                             See https://www.w3schools.com/howto/howto_js_tabs.asp
-                        <div class="divTable">
-                            <div class="divTableBody">
-                                <div class="divTableRow">
-                                    <div class="divTableCellTab">Import</div>
-                                    <div class="divTableCellTab">Evaluate</div>
-                                    <div class="divTableCellTab">File 1</div>
-                                    <div class="divTableCellTab">New File</div>
-                                </div>
-                            </div>
-                        </div>-->
                     </div>
                 </div>
                 <div class="divTableRow" id="lowerrow">
@@ -128,7 +118,28 @@
                               <label for="newcase_date">Date: </label>
                               <input type="date" name="newcase_date" id="newcase_date" required />
                             </div>
+                            <div>
                             <textarea rows="4" cols="50" name="newcase_textarea" id="newcase_textarea"></textarea>
+                            </div>
+                            <div>
+                            <label for="newcase_importance">Choose an importance level:</label><br />
+
+                            <input type="range" id="newcase_importance" name="newcase_importance" list="importance_values" min="0" max="10" step="1"/>
+
+                            <datalist id="importance_values">
+                                <option value="0" label="Forget About It!"></option>
+                                <option value="1" label=""></option>
+                                <option value="2" label=""></option>
+                                <option value="3" label=""></option>
+                                <option value="4" label=""></option>
+                                <option value="5" label="Medium Importance."></option>
+                                <option value="6" label=""></option>
+                                <option value="7" label=""></option>
+                                <option value="8" label=""></option>
+                                <option value="9" label=""></option>
+                                <option value="10" label="Super Important!"></option>
+                                </datalist>
+                            </div>
                             <div class="form-example">
                               <input type="button" value="Add File" onclick="addNewCase();">
                             </div>
@@ -138,6 +149,9 @@
                     </div>
                     <div id="main_lowerright_evaluate" class="divTableCell mlr">
                         <h1>Evaluation process in devlopment.</h1>
+                    </div>
+                    <div id="main_lowerright_filter" class="divTableCell mlr">
+                        <h1>Filtering process in devlopment.</h1>
                     </div>
                 </div>
             </div>
