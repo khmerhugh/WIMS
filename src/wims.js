@@ -1,25 +1,26 @@
 // valid username/password combinations
 let users = {"a": "a", "scooby": "mystery"};
 
-filters = {"importance": 0, "dateMinimum": null, "dateMaximum": null, "terms": []};
+// Filters object
+let filters = {"importance": 0, "dateMinimum": null, "dateMaximum": null, "terms": []};
 
 //////////////////////////
 // flag for annotations
 let f = 0;
 // categories for annotations
-let categories = [ { "type": "Person", "color": "orangered"},
-    { "type": "Place", "color": "blueviolet"},
-    { "type": "Telephone", "color": "yellowgreen"}
+const categories = [ { "type": "Person", "color": "orangered"},
+                     { "type": "Place", "color": "blueviolet"},
+                     { "type": "Telephone", "color": "yellowgreen"}
 ];
-//////////////////////////
 
-let cases = "";
-// let regexp = /--- ((?:fbi|cia|se)\d+\.\S*?)(?:\.*) ---\r\n(?:Report) (?:\S*)\s(.*?\d\d\d\d)(?:\.|:{0,1})\s*(.*)/gm;
 // RegEx for importing from supplied case file
-let regexp = /--- ((?:fbi|cia|se)\d+\.\S*?)(?:\.*) ---\s*?(?:Report) (?:\S*)\s(.*?\d\d\d\d)(?:\.|:{0,1})\s*(.*)/gm;
+const regexp = /--- ((?:fbi|cia|se)\d+\.\S*?)(?:\.*) ---\s*?(?:Report) (?:\S*)\s(.*?\d\d\d\d)(?:\.|:{0,1})\s*(.*)/gm;
 // Array of files
-//let files = [];
+let files = [];
 
+/////////////////////////////////
+// Hide Main Lower Right Divs
+/////////////////////////////////
 function hideMLRElements() {
     const elements = document.querySelectorAll(".mlr");
     elements.forEach(element => {
@@ -28,9 +29,10 @@ function hideMLRElements() {
     });
   }
 
+/////////////////////////////////
+// Recreate File Div
+/////////////////////////////////  
 function displayCase(x){
-    console.log(x);
-    //document.getElementById("main_lowerright").innerHTML = foo[Number(element.id.substring(1))][3];
     hideMLRElements();
     document.getElementById("main_lowerright_file").style.display = "block";
     document.getElementById("main_lowerright_file").style.visibility = "visible";
@@ -44,7 +46,6 @@ function displayCase(x){
 //////////////////////////////////////////////////////////
 
     let divRangeImportance = document.createElement("DIV");
-
 
     let importanceLabel = document.createElement("LABEL");
     importanceLabel.setAttribute("for", "file_importance");
@@ -63,9 +64,9 @@ function displayCase(x){
     importanceRange.setAttribute("value", files[Number(x.substring(1))][3]);
     importanceRange.onchange = function(){ 
         files[Number(x.substring(1))][3] = importanceRange.value;
-        if ( ( filters.importance > files[i][3] ) ||
-             ( Date.parse(filters.dateMinimum) > Date.parse(files[i][1] ) ) ||
-             ( Date.parse(filters.dateMaximum) < Date.parse(files[i][1] ) ) ) {
+        if ( ( filters.importance > files[Number(x.substring(1))][3] ) ||
+             ( Date.parse(filters.dateMinimum) > Date.parse(files[Number(x.substring(1))][1] ) ) ||
+             ( Date.parse(filters.dateMaximum) < Date.parse(files[Number(x.substring(1))][1] ) ) ) {
             document.getElementById(x).classList.add("filteredFile");
         }
         else {
@@ -76,7 +77,7 @@ function displayCase(x){
     let datalist = document.createElement("DATALIST");
     datalist.setAttribute("id", "importance_values");
     let labels = ["Forget About It!","","","","","Medium Importance.","","","","","Super Importance!"];
-    for (var i = 0; i<=10; i++){
+    for (let i = 0; i<=10; i++){
         let option = document.createElement('option');
         option.value = i;
         option.label = labels[i];
@@ -101,17 +102,15 @@ function displayCase(x){
     document.getElementById("prose").addEventListener("mouseup", function () {
             if (f === 0) {
             } else if (f === 1) {
-                getSelText();
+                getSelectedText();
                 files[Number(x.substring(1))][2] = document.getElementById("prose").innerHTML;
             }
         }, false);
 
     let divAnnotate = document.createElement("DIV");
-
     let fieldsetAnnotate = document.createElement("FIELDSET");
 
     for(let i = 0; i < categories.length; i++){
-
         let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         svg.setAttribute('width', '12');
         svg.setAttribute('height', '12');
@@ -147,9 +146,9 @@ function displayCase(x){
     document.getElementById("main_lowerright_file").appendChild(divAnnotate);
 
 }
-
 /////////////////////////
-
+// Populate the sidetab
+/////////////////////////
 function listFiles(){ 
     document.getElementById("topSideBarSection").replaceChildren();
 
@@ -176,8 +175,8 @@ function listFiles(){
 
         if (filters.terms.length > 0) {
             for (let j = 0; j < filters.terms.length; j++){
-                if ( (strip(files[i][2]).includes(filters.terms[j][0]) && !filters.terms[j][1]) ||
-                     (!strip(files[i][2]).includes(filters.terms[j][0]) && filters.terms[j][1])
+                if ( (stripMarkup(files[i][2]).includes(filters.terms[j][0]) && !filters.terms[j][1]) ||
+                     (!stripMarkup(files[i][2]).includes(filters.terms[j][0]) && filters.terms[j][1])
                     ) 
                 {
                     document.getElementById("c"+i).classList.add("filteredFile");
@@ -185,9 +184,11 @@ function listFiles(){
             }
         }
     }
-
 }
 
+//////////////////////////
+//  Import the Files/Cases
+//////////////////////////
 function importCases(){
     let x = document.getElementById("importcases_textarea").value;
     document.getElementById("importcases_textarea").value = "";
@@ -196,6 +197,9 @@ function importCases(){
     listFiles();
 }
 
+/////////////////////////
+// Display the new case div
+////////////////////////
 function addCase(){
     console.log("add case");
     hideMLRElements();
@@ -203,6 +207,9 @@ function addCase(){
     document.getElementById("main_lowerright_newcase").style.visibility = "visible";
 }
 
+/////////////////////////
+// remove the selected case
+////////////////////////
 function removeCase(){
     console.log("remove case");
     const e = document.getElementsByClassName("is-side-bar-item-selected");
@@ -216,6 +223,9 @@ function removeCase(){
     }
 }
 
+/////////////////////////
+// Display the evaluate div
+////////////////////////
 function evaluate(){ 
     console.log("evaluate");
     hideMLRElements();
@@ -223,6 +233,9 @@ function evaluate(){
     document.getElementById("main_lowerright_evaluate").style.visibility = "visible";
 }
 
+/////////////////////////
+// Display the file div without rebuilding
+////////////////////////
 function displayFileTab(){
     console.log("display file tab without rebuilding");
     hideMLRElements();
@@ -230,6 +243,9 @@ function displayFileTab(){
     document.getElementById("main_lowerright_file").style.visibility = "visible";
 }
 
+/////////////////////////
+// Display the import div
+////////////////////////
 function displayImportDiv(){
     console.log("displayImportDiv");
     hideMLRElements();
@@ -237,6 +253,9 @@ function displayImportDiv(){
     document.getElementById("main_lowerright_import").style.visibility = "visible";
 }
 
+/////////////////////////
+// Log the current user out
+////////////////////////
 function logout(){
     console.log("logout");
     hideMLRElements();
@@ -247,6 +266,9 @@ function logout(){
     document.getElementById("page_main").style.visibility = "hidden";
 }
 
+//////////////////////////////////////
+// Add case data from new case page to file array and redraw sidebar
+/////////////////////////////////////
 function addNewCase(){
     files.push(
         [ document.getElementById("newcase_filename").value,
@@ -263,6 +285,9 @@ function addNewCase(){
     listFiles();
 }
 
+/////////////////////////////
+// Handle attempted login
+/////////////////////////////
 function validateUser() {
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
@@ -285,6 +310,9 @@ function validateUser() {
     }
 }
 
+/////////////////////////
+// Display the add new user div
+////////////////////////
 function newUser() {
     document.getElementById("page_login").style.display = "none";
     document.getElementById("page_login").style.visibility = "hidden";
@@ -292,6 +320,9 @@ function newUser() {
     document.getElementById("page_newuser").style.visibility = "visible";
 }
 
+/////////////////////////
+// Add a new user given username and password
+////////////////////////
 function addNewUser() {
     let newusername = document.getElementById("newusername").value;
     let newpassword = document.getElementById("newpassword").value;
@@ -309,15 +340,20 @@ function addNewUser() {
     } else {
         console.log("Cannot add user");
     }
-
 }
 
+////////////////////////////////
+// Clear textboxes on create new user page
+//////////////////////////////////
 function clearNewUser() {
     document.getElementById("newusername").value = "";
     document.getElementById("newpassword").value = "";
     document.getElementById("repeatnewpassword").value = "";
 }
 
+////////////////////////////////////
+// Display the filter tab
+////////////////////////////////////
 function displayFilterTab() {
     document.getElementById("main_lowerright_filter").innerHTML = "";
     console.log("filter");
@@ -360,7 +396,7 @@ function displayFilterTab() {
     let datalist = document.createElement("DATALIST");
     datalist.setAttribute("id", "importance_values_filter");
     let labels = ["Forget About It!","","","","","Medium Importance.","","","","","Super Importance!"];
-    for (var i = 0; i<=10; i++){
+    for (let i = 0; i<=10; i++){
         let option = document.createElement('option');
         option.value = i;
         option.label = labels[i];
@@ -464,8 +500,8 @@ function displayFilterTab() {
             document.getElementById("selectRemoveTerm").appendChild(option);
 
             for (let j = 0; j < files.length; j++){
-                if ( (strip(files[j][2]).includes(filters.terms[i][0]) && !filters.terms[i][1]) ||
-                     (!strip(files[j][2]).includes(filters.terms[i][0]) && filters.terms[i][1])
+                if ( (stripMarkup(files[j][2]).includes(filters.terms[i][0]) && !filters.terms[i][1]) ||
+                     (!stripMarkup(files[j][2]).includes(filters.terms[i][0]) && filters.terms[i][1])
                     ) 
                 {
                     document.getElementById("c"+j).classList.add("filteredFile");
@@ -529,11 +565,12 @@ function displayFilterTab() {
     divFilterTerms.appendChild(document.createElement("BR"));
     divFilterTerms.appendChild(selectRemoveTerm);
 
-
-
     document.getElementById("main_lowerright_filter").appendChild(divFilterTerms);
 }
 
+//////////////////////////////////////////////
+// Execute when Header tab is clicked
+/////////////////////////////////////////////
 function makeSelected(x){
     let ids = ["import","new","file","filter","evaluate","logout"];
     for (let i = 0; i < ids.length; i++){
@@ -567,6 +604,9 @@ function makeSelected(x){
 
 }
 
+//////////////////////////////////////////////
+// Change CSS class of selected sidebar item
+/////////////////////////////////////////////
 function makeSidebarSelected(x){
     for (const childElement of document.getElementById("topSideBarSection").children) {
       childElement.classList.remove("is-side-bar-item-selected");
@@ -574,18 +614,18 @@ function makeSidebarSelected(x){
     document.getElementById(x).classList.add("is-side-bar-item-selected");
 }
 
-function clickedHorizontalTab(x){
-    console.log(x);
-}
-function clickedVerticalTab(x){
-    console.log(x);
-    displayCase(x);
-}
+//function clickedHorizontalTab(x){
+//    console.log(x);
+//}
+//function clickedVerticalTab(x){
+//    console.log(x);
+//    displayCase(x);
+//}
 
 //////////////////////////////////////////////
 // For Annotations
 /////////////////////////////////////////////
-function getSelText() {
+function getSelectedText() {
     var sel = window.getSelection();
     if (sel.getRangeAt && (sel.toString().trim() != "" )) {
         let r = sel.getRangeAt(0);
@@ -596,11 +636,11 @@ function getSelText() {
     sel.empty();
 }
 //////////////////////////////////////////////////////////
-// Strip tags out of html to prepare for searching
+// Strip Markup out of html to prepare for searching
 /////////////////////////////////////////////////////////
-function strip(html){
-    let doc = new DOMParser().parseFromString(html, 'text/html');
-    return doc.body.textContent || "";
+function stripMarkup(x){
+    let d = new DOMParser().parseFromString(x, 'text/html');
+    return d.body.textContent || "";
 }
 
 window.onload = function() {
