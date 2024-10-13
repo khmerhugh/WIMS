@@ -106,7 +106,7 @@ function displayCase(x){
     fieldsetAnnotate.style.width = "400px";
 
     let legend = document.createElement("LEGEND");
-    legend.innerHTML = "Annotation Category:";
+    legend.innerHTML = "Choose category, then highlight document text to annotate:";
     fieldsetAnnotate.appendChild(legend);
 
     for(let i = 0; i < categories.length; i++){
@@ -162,18 +162,18 @@ function displayCase(x){
 // Populate the sidetab
 /////////////////////////
 function listFiles(){ 
-    document.getElementById("topSideBarSection").replaceChildren();
+    document.getElementById("topSidebarSection").replaceChildren();
 
     for( let i = 0; i < files.length; i++ ){
         let sidetab = document.createElement("DIV");
-        sidetab.classList.add("sideBar__item");
+        sidetab.classList.add("sidebarItem");
         sidetab.id = "c" + i;
         sidetab.onclick = function(x) { makeSidebarSelected(x.target.id);
                                         makeSelected("file");
                                         displayCase(x.target.id)
         }; 
         sidetab.innerHTML = files[i][0];
-        document.getElementById("topSideBarSection").appendChild(sidetab);
+        document.getElementById("topSidebarSection").appendChild(sidetab);
     }
     checkFiltered();
 }
@@ -211,7 +211,7 @@ function removeCase(){
         listFiles();
         document.getElementById("main_lowerright_file").innerHTML = "";
         hideMLRElements();
-        document.getElementById("file").classList.remove("is-site-header-item-selected");
+        document.getElementById("file").classList.remove("is-selected");
     }
 }
 
@@ -223,6 +223,16 @@ function evaluate(){
     hideMLRElements();
     document.getElementById("main_lowerright_evaluate").style.display = "block";
     document.getElementById("main_lowerright_evaluate").style.visibility = "visible";
+}
+
+/////////////////////////
+// Display the report div
+////////////////////////
+function report(){ 
+    console.log("report");
+    hideMLRElements();
+    document.getElementById("main_lowerright_report").style.display = "block";
+    document.getElementById("main_lowerright_report").style.visibility = "visible";
 }
 
 /////////////////////////
@@ -251,7 +261,7 @@ function displayImportDiv(){
 function logout(){
     console.log("logout");
     hideMLRElements();
-    document.getElementById("logout").classList.remove("is-site-header-item-selected");
+    document.getElementById("logout").classList.remove("is-selected");
     document.getElementById("page_login").style.display = "block";
     document.getElementById("page_login").style.visibility = "visible";
     document.getElementById("page_main").style.display = "none";
@@ -362,13 +372,13 @@ function displayFilterTab() {
     document.getElementById("main_lowerright_filter").appendChild(instructions);
 
     let filtertoolbar = document.createElement("DIV");
-    filtertoolbar.classList.add("siteHeader");
+    filtertoolbar.classList.add("toolbar");
     let filtertoolbarsection = document.createElement("DIV");
-    filtertoolbarsection.classList.add("siteHeader__section");
+    filtertoolbarsection.classList.add("toolbarSection");
 
     let tabtoolbar1 = document.createElement("DIV");
-    tabtoolbar1.classList.add("siteHeader__item");
-    tabtoolbar1.classList.add("siteHeaderButton");
+    tabtoolbar1.classList.add("toolbarItem");
+    tabtoolbar1.classList.add("toolbarButton");
     tabtoolbar1.setAttribute("id", "tab_importance");
     tabtoolbar1.innerHTML = "Importance";
     tabtoolbar1.onclick = function(x) {
@@ -412,8 +422,8 @@ function displayFilterTab() {
     }; 
 
     let tabtoolbar2 = document.createElement("DIV");
-    tabtoolbar2.classList.add("siteHeader__item");
-    tabtoolbar2.classList.add("siteHeaderButton");
+    tabtoolbar2.classList.add("toolbarItem");
+    tabtoolbar2.classList.add("toolbarButton");
     tabtoolbar2.setAttribute("id", "tab_dates");
     tabtoolbar2.innerHTML = "Dates";
     tabtoolbar2.onclick = function(x) { 
@@ -465,8 +475,8 @@ function displayFilterTab() {
     }; 
 
     let tabtoolbar3 = document.createElement("DIV");
-    tabtoolbar3.classList.add("siteHeader__item");
-    tabtoolbar3.classList.add("siteHeaderButton");
+    tabtoolbar3.classList.add("toolbarItem");
+    tabtoolbar3.classList.add("toolbarButton");
     tabtoolbar3.setAttribute("id", "tab_terms");
     tabtoolbar3.innerHTML = "Terms";
     tabtoolbar3.onclick = function(x) {
@@ -582,20 +592,20 @@ function displayFilterTab() {
 function makeFilterToolbarSelected (x) { 
     let ids = ["tab_importance","tab_dates","tab_terms"];
     for (let i = 0; i < ids.length; i++){
-        document.getElementById(ids[i]).classList.remove("is-site-header-item-selected");
+        document.getElementById(ids[i]).classList.remove("is-selected");
     }
-    document.getElementById(x).classList.add("is-site-header-item-selected");
+    document.getElementById(x).classList.add("is-selected");
 }
 
 //////////////////////////////////////////////
 // Execute when Header tab is clicked
 /////////////////////////////////////////////
 function makeSelected(x){
-    let ids = ["import","new","file","filter","evaluate","logout"];
+    let ids = ["import","new","file","filter","evaluate","report","logout"];
     for (let i = 0; i < ids.length; i++){
-        document.getElementById(ids[i]).classList.remove("is-site-header-item-selected");
+        document.getElementById(ids[i]).classList.remove("is-selected");
     }
-    document.getElementById(x).classList.add("is-site-header-item-selected");
+    document.getElementById(x).classList.add("is-selected");
     console.log(x);
 
     switch (x) {
@@ -617,6 +627,9 @@ function makeSelected(x){
         case 'evaluate':
             evaluate();
             break;
+        case 'report':
+            report();
+            break;
         default:
             break;
       }
@@ -626,10 +639,10 @@ function makeSelected(x){
 // Change CSS class of selected sidebar item
 /////////////////////////////////////////////
 function makeSidebarSelected(x){
-    for (const childElement of document.getElementById("topSideBarSection").children) {
-      childElement.classList.remove("is-side-bar-item-selected");
+    for (const childElement of document.getElementById("topSidebarSection").children) {
+      childElement.classList.remove("is-selected");
     }
-    document.getElementById(x).classList.add("is-side-bar-item-selected");
+    document.getElementById(x).classList.add("is-selected");
 }
 
 //////////////////////////////////////////////
@@ -639,8 +652,8 @@ function getSelectedText() {
     var sel = window.getSelection();
     if (sel.getRangeAt && (sel.toString().trim() != "" )) {
         let r = sel.getRangeAt(0);
-        let n = document.createElement("ann-" +
-                document.querySelector('input[name="annotateCategory"]:checked').value);
+        let n = document.createElement("SPAN");
+        n.classList.add(document.querySelector('input[name="annotateCategory"]:checked').value);
         r.surroundContents(n);
     } 
     sel.empty();
